@@ -1,0 +1,375 @@
+{% extends 'home_main.html'%}{%load static%} 
+{%load static%}
+{%block title%}
+Profil - Mes Informations - TalentSport
+{%endblock%}
+{%block content%}
+
+<main class="mt-4" style="margin:3%;"> 
+ 
+	<div class="mt-3">
+   
+    <div class="row ">
+      <div class="pub_annonce_btn col-lg-3 mb-4 mr-4" id="profil_links">
+        <a href="" style="font-size: 16px; color: #ffc800 !important ;">
+          <i class="bx bx-user" style="color:#ffc800; font-size: 22px;"></i> Mes informations
+        </a>
+        <hr>
+        {% for group in user.groups.all %}
+         {% if group.name == "Recruteur" %}
+           <a href="{% url 'user_annonces' user.id %}" style="font-size: 16px;color: #212529 ;">
+              <i class="bx bx-news" style="color:#ffc800; font-size: 22px;"></i> Mes annonces
+           </a>
+          {%elif group.name == "Sportif"%}
+            <a href="{% url 'user_publications' user.id %}" style="font-size: 16px;color: #212529 ;">
+              <i class="bx bx-news" style="color:#ffc800; font-size: 22px;"></i> Mes publications
+            </a>
+          {%else%}
+          {%endif%}
+        {% endfor %}
+        <hr>
+        <a href="{% url 'user_followers' user.id %}" style="font-size: 16px;color: #212529 ;">
+          <i class="bx bx-group" style="color:#ffc800; font-size: 22px;"></i> Mes abonnés
+        </a> 
+        <hr>
+        <a href="{% url 'abonnement' user.id%}" style="font-size: 16px;color: #212529 ;">
+          <i class="bx bx-credit-card" style="color:#ffc800; font-size: 22px;"></i> Mon abonnement
+        </a>
+      </div>
+      <div class="col-lg-8 pub_annonce_btn mb-4">
+        
+         <div class="d-flex flex-column align-items-center text-center image-circle">
+         
+              {% if user.compte.image%}
+              <img class="rounded-circle img-fluid rounded" width="130" src="{{ MEDIA_URL }}/{{ user.compte.image }}">
+              {% else %}
+              <img class="rounded-circle img-fluid rounded" width="130" src="{% static 'images/default-user-icon-13.jpg'%}">
+              {% endif %}
+              <span class="font-weight-bold my-2">{{user.first_name}} {{user.last_name}}</span>
+              <div class="d-flex">
+                <div class="mx-2">
+                  {% if user.compte.followers %}
+                  <span>{{nbre_abonne}}</span>
+                  {% else %}
+                  <span>0</span>
+                  {% endif %}
+                  <p>Abonné</p>
+                </div>
+                <div class="mx-2">
+
+                  {% if publication %}
+                  <span>{{publication}}</span>
+                  {%else%}
+                  <span>0</span>
+                  {%endif%}
+                  <p>publication</p>
+                </div>
+              </div>
+              <div class="d-flex">
+                <a href="{% url 'logout_view'%}" class="btn my-3 mx-3 logout_btn"><i class="bx bx-log-out"></i> Déconnexion</a>
+                <a href="{% url 'edit_information' user.id %}" class="btn my-3 set_info_btn"> <i class="bx bx-pencil"></i> Modifier</a>
+              </div>
+         </div>
+         {% if user.compte.adresse %}
+         {%else%}
+         <h4>Complétez votre profil</h4>
+         {%endif%}
+         {% for group in user.groups.all %}
+         {% if group.name == "Sportif" %}
+         <h3>Informations personnelles</h3>
+         <form id="formAdd" action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token  %}
+            <div class="row">
+              <div class="col-lg-6">
+                {% if user.compte.role %}
+                <h6 class="mt-2"><span class=""> Rôle</span> :<span class=""> {{user.compte.role}}</span></h6>
+                <hr>
+                {% else%}
+                  <span>
+                    Joueur ou Coach :
+                  </span>
+                  <select name="role" class="form-control my-2">
+                    <option>Selectionner votre rôle</option>
+                    
+                    <option value="Joueur">Joueur</option>
+                    <option value="Coach">Coach</option>
+                  </select>
+                  {% endif %}
+              </div>
+              <div class="col-lg-6">
+                {% if user.compte.date_naissance %}
+                <h6 class="mt-2"><span class=""> Date de naissance</span> :<span class=""> {{user.compte.date_naissance}}</span></h6>
+                <hr>
+                {%else%}
+                 <span>
+                  Date de naissance :
+                </span>
+                <div class="d-flex">
+                  <input type="date" name="date_naissance" value="{{user.compte.date_naissance}}" placeholder="{{user.compte.date_naissance}}" class="form-control my-2 ">
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                {% if user.compte.adresse %}
+               <h6 class="mt-2"><span class=""> Adresse</span> :<span class=""> {{user.compte.adresse}}</span></h6>
+               <hr>
+               
+               {%else%}
+                <span>
+                 Adresse :
+                </span>
+               <div class="d-flex">
+                 <input type="text" name="adresse" value="" placeholder="Entrez votre adresse ex: Cotonou" class="form-control my-2 ">
+               </div>
+               {% endif %}
+             </div>
+              <div class="col-lg-6">
+                
+                {% if user.compte.sexe %}
+                <h6 class="mt-2"><span class=""> Sexe</span> :<span class=""> {{user.compte.sexe}}</span></h6>
+                <hr>
+                {% else%}
+                  <span>
+                    Sexe :
+                  </span>
+                  <select name="sexe" class="form-control my-2">
+                    <option>Selectionner votre sexe</option>
+                    <option value="Masculin">Masculin</option>
+                    <option value="Féminin">Féminin</option>
+                  </select>
+                  {% endif %}
+              </div>
+              
+            </div>
+           
+            <div class="row">
+             
+              <div class="col-lg-6">
+                 {% if user.compte.contact %}
+                <h6 class="mt-2"><span class=""> Contact</span> :<span class=""> {{user.compte.contact}}</span></h6>
+                <hr>
+                
+                {%else%}
+                 <span>
+                  Contact :
+                </span>
+                <div class="d-flex">
+                  <input type="text" name="contact" value="" placeholder="Entrez votre contact" class="form-control my-2 ">
+                </div>
+                {% endif %}
+              </div>
+              <div class="col-lg-6">
+                {% if user.compte.taille %}
+              <h6 class="mt-2"><span class="">Taille</span> :<span class=""> {{user.compte.taille}} m</span></h6>
+              <hr>
+              
+              {%else%}
+               <span>
+                 Taille :
+              </span>
+              <div class="d-flex">
+                <input type="text" name="taille" value="" placeholder="Entrez votre taille en mètre ex: 1,72" class="form-control my-2">
+              </div>
+              {% endif %}
+            </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12">
+                {% if user.compte.image %}
+                
+                {%else%}
+                 <span>
+                  Photo de profil :
+                </span>
+                <div class="d-flex">
+                  <input type="file" name="image" value="" placeholder="Entrez votre photo" class="form-control my-2 ">
+                </div>
+                {% endif %}
+              </div>
+              
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                {% if user.compte.discipline_sportive %}
+                <h6 class="mt-2"><span class="">Discipline Sportive</span> :<span class=""> {{user.compte.discipline_sportive}} </span></h6>
+                <hr>
+                {% else %}
+                  <span>
+                    Discipline sportive :
+                  </span>
+                  <select name="discipline_sportive" class="form-control my-2">
+                    <option>Selectionner votre discipline sportive</option>
+                    {% for discipline_sportive in discipline_sportives %}
+                    <option value={{discipline_sportive.id}}>{{discipline_sportive.désignation}}</option>
+                    {% endfor %}
+                  </select>
+                  {% endif %}
+              </div>
+             <div class="col-lg-6">
+                {% if user.compte.poids %}
+                <h6 class="mt-2"><span class="">Poids</span> :<span class=""> {{user.compte.poids}} kg</span></h6>
+                <hr>
+                {%else%}
+                 <span>
+                  Poids :
+                </span>
+                <div class="d-flex">
+                  <input type="text" name="poids" value="" placeholder="Entrez votre poids ex: 50" class="form-control my-2 ">
+                </div>
+                {% endif %}
+              </div>
+              
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                {% if user.compte.poste %}
+                <h6 class="mt-2"><span class="">Poste</span> :<span class=""> {{user.compte.poste}} </span></h6>
+                <hr>
+                {% else %}
+                  <span>
+                    Poste :
+                  </span>
+                  <select name="poste" class="form-control my-2">
+                    <option class="after" value="">Selectionner votre poste</option>
+                  </select>
+                  {% endif %}
+              </div>
+              <div class="col-lg-6">
+                {% if user.compte.pied_main %}
+                <h6 class="mt-2"><span class="">Membre fort</span> :<span class=""> {{user.compte.pied_main}} </span></h6>
+                <hr>
+                {% else %}
+                  <span>
+                    Membre fort :
+                  </span>
+                  <select name="pied_main" class="form-control my-2">
+                    <option>Selectionner votre membre fort</option>
+                    <option value="Droit">Droit</option>
+                    <option value="Gauche">Gauche</option>
+                    <option value="Les deux">Les deux</option>
+                  </select>
+                  {% endif %}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                {% if user.compte.club_actuel %}
+                <h6 class="mt-2"><span class="">Club actuel</span> :<span class=""> {{user.compte.club_actuel}} </span></h6>
+                <hr>
+                {% else %}
+                  <span>
+                    Club actuel :
+                  </span>
+                  <input type="text" name="club_actuel" placeholder="Entrez votre club actuel" class="form-control my-2">
+                  {% endif %}
+              </div>
+              
+              <div class="col-lg-6">
+                {% if user.compte.niveau %}
+                <h6 class="mt-2"><span class="">Niveau</span> :<span class=""> {{user.compte.niveau}} </span></h6>
+                <hr>
+                {% else %}
+                  <span>
+                    Niveau :
+                  </span>
+                  <select name="niveau" class="form-control my-2">
+                    <option>Selectionner votre niveau</option>
+                    {% for niveau in niveaux %}
+                    <option value={{niveau.id}}>{{niveau.désignation}}</option>
+                    {% endfor %}
+                  </select>
+                  {% endif %}
+              </div>
+              
+            </div>
+            
+            {% if user.compte.role %}
+            <a href="{% url 'create_cv' user.id  %}" class="btn btncolor" target="_blank">Générer un cv</a>
+            {% else%}
+            <button class="btncolor btn my-4 publication_btn w-100">Enregistrer</button> 
+            {% endif%}
+         </form>
+         {% elif group.name == "Recruteur" %}
+         <h3>Informations personnelles</h3>
+          <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token  %}         
+            <div class="row">
+              <div class="col-lg-12">
+                 {% if user.compte.adresse %}
+                <h6 class="mt-2"><span class=""> Adresse</span> :<span class=""> {{user.compte.adresse}}</span></h6>
+                <hr>
+                
+                {%else%}
+                 <span>
+                  Adresse :
+                </span>
+                <div class="d-flex">
+                  <input type="text" name="adresse" value="" placeholder="Entrez votre adresse ex: Cotonou" class="form-control my-2 ">
+                </div>
+                {% endif %}
+              </div>
+              <div class="col-lg-12">
+                 {% if user.compte.contact %}
+                <h6 class="mt-2"><span class=""> Contact</span> :<span class=""> {{user.compte.contact}}</span></h6>
+                <hr>
+                
+                {%else%}
+                 <span>
+                  Contact :
+                </span>
+                <div class="d-flex">
+                  <input type="text" name="contact" value="" placeholder="Entrez votre contact" class="form-control my-2 ">
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-lg-12">
+                {% if user.compte.discipline_sportive %}
+                <h6 class="mt-2"><span class="">Discipline Sportive</span> :<span class=""> {{user.compte.discipline_sportive}} </span></h6>
+                <hr>
+                {% else %}
+                  <span>
+                    Discipline sportive :
+                  </span>
+                  <select name="discipline_sportive" class="form-control my-2">
+                    <option>Selectionner votre discipline sportive</option>
+                    {% for discipline_sportive in discipline_sportives %}
+                    <option value={{discipline_sportive.id}}>{{discipline_sportive.désignation}}</option>
+                    {% endfor %}
+                  </select>
+                  {% endif %}
+              </div>
+              <div class="col-lg-12">
+                {% if user.compte.image %}
+                {%else%}
+                 <span>
+                  Photo de profil :
+                </span>
+                <div class="d-flex">
+                  <input type="file" name="image" value="" placeholder="Entrez votre photo" class="form-control my-2 ">
+                </div>
+                {% endif %}
+              </div>
+              
+            </div>
+            {% if user.compte.adresse %}
+            {% else%}
+            <button class="btncolor btn my-4 publication_btn w-100">Enregistrer</button> 
+            {% endif%}
+         </form>
+         {% else %}
+         <p>Pas d'accès</p>
+         {% endif %}
+         {% endfor%}
+      </div>
+    </div>
+  </div>
+</main>
+{%endblock%}
+
+

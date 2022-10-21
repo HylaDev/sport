@@ -1,0 +1,52 @@
+
+{% extends 'admin/main.html'%}
+{%load crispy_forms_tags%} 
+{%load static%}
+{%block title%}
+Supprimer Publication - TalentSport+
+{%endblock%}
+{%block content%}
+
+<!-- dashboard inner -->
+<div class="midde_cont">
+   <div class="container-fluid">
+      <div class="row column_title">
+         <div class="col-md-12">
+            <div class="page_title">
+               <h2>Supprimer publication</h2>
+            </div>
+         </div>
+      </div>
+      <div class="row column">
+         <div class="col-md-12">
+            <div class="white_shd full margin_bottom_30">
+               <div class="full graph_head">
+                  <div class="form-group">
+                  <form action="" method="POST">
+                    {% csrf_token %}
+
+                    <p>Voulez-vous vraiment supprimer cette publication?</p>
+                    <div>
+                        <button class="btn btn-danger my-4" type="submit">Oui, supprimer</button>
+                        <a href="{% url 'publication'%}" class="btn btn-secondary my-4" type="submit">Non, page précédente</a>
+                    </div>
+                  </form>
+               </div>
+               </div> 
+               
+               
+            </div>
+         </div>
+      </div>
+      
+   </div>
+   <!-- footer -->
+   <div class="container-fluid">
+      <div class="footer">
+        <p>Copyright © 2022 Produit par <a href="{% url 'dashbord' %}">TalentSport+</a>. Tous droits reservés.<br><br>
+        </p>
+      </div>
+   </div>
+</div>
+<!-- end dashboard inner -->
+{% endblock %}

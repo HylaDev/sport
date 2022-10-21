@@ -1,0 +1,95 @@
+
+{% extends 'admin/main.html'%}
+{%load static%} 
+{%load static%}
+{%block title%}
+Tableau de bord - TalentSport+
+{%endblock%}
+{%block content%}
+
+<!-- dashboard inner -->
+<div class="midde_cont">
+   <div class="container-fluid">
+      <div class="row column_title">
+         <div class="col-md-12">
+            <div class="page_title">
+               <h2>Tableau de bord</h2>
+            </div>
+         </div>
+      </div>
+      {%include 'message.html'%}
+      <div class="row column1">
+         <div class="col-md-6 col-lg-3">
+            <div class="full counter_section margin_bottom_30 yellow_bg">
+               <div class="couter_icon">
+                  <div> 
+                     <i class="bx bx-user"></i>
+                  </div>
+               </div>
+               <div class="counter_no">
+                  <div>
+                     <p class="total_no" style="color:white !important;">{{users}}</p>
+                     <p class="head_couter" style="color:white !important;"> Utilisateurs</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6 col-lg-3">
+            <div class="full counter_section margin_bottom_30 blue1_bg">
+               <div class="couter_icon">
+                  <div> 
+                     <i class="bx bx-bullseye"></i>
+                  </div>
+               </div>
+               <div class="counter_no">
+                  <div>
+                     <p class="total_no" style="color:white !important;">{{discipline_sportives}}</p>
+                     <p class="head_couter" style="color:white !important;">Disciplines</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6 col-lg-3">
+            <div class="full counter_section margin_bottom_30 green_bg">
+               <div class="couter_icon">
+                  <div> 
+                     <i class="bx bx-news"></i>
+                  </div>
+               </div>
+               <div class="counter_no">
+                  <div>
+                     <p class="total_no" style="color:white !important;">{{publications}}</p>
+                     <p class="head_couter" style="color:white !important;">Publications</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6 col-lg-3">
+            <div class="full counter_section margin_bottom_30 red_bg">
+               <div class="couter_icon">
+                  <div> 
+                     <i class="bx bx-comment"></i>
+                  </div>
+               </div>
+               <div class="counter_no">
+                  <div>
+                     <p class="total_no" style="color:white !important;">{{commentaires}}</p>
+                     <p class="head_couter" style="color:white !important;">Commentaires</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      
+   </div>
+   <!-- footer -->
+   <div class="container-fluid">
+      <div class="footer">
+         <p>Copyright © 2022 Produit par <a href="{% url 'index' %}">TalentSport+</a>. Tous droits reservés.<br><br>
+         </p>
+      </div>
+   </div>
+</div>
+<!-- end dashboard inner -->
+            
+{% endblock %}

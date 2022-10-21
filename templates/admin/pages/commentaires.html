@@ -1,0 +1,78 @@
+
+{% extends 'admin/main.html'%}
+{%load static%} 
+{%load static%}
+{%block title%}
+Commentaires - TalentSport+
+{%endblock%}
+{%block content%}
+
+<!-- dashboard inner -->
+<div class="midde_cont">
+   <div class="container-fluid">
+      <div class="row column_title">
+         <div class="col-md-12">
+            <div class="page_title">
+               <h2>Commentaires</h2>
+            </div>
+         </div>
+      </div>
+      {%include 'message.html'%}
+      <div class="row column1">
+         <div class="col-md-12">
+            <div class="white_shd full margin_bottom_30">
+               <div class="full graph_head">
+                  <div class="heading1 margin_0">
+                     <h2>Liste des commentaires</h2>
+                  </div>
+                  <div class="m-3 text-right">
+                        <a href="" class="btn btn-warning" style="color:#fff;">Ajouter</a>
+                  </div>
+               </div> 
+               
+               <div class="table_section padding_infor_info">
+                  <div class="table-responsive-sm">
+                     <table class="table table-bordered">
+                        <thead>
+                           <tr>
+                              <th>#</th>
+                              <th>Auteur</th>
+                              <th>Commentaire</th>
+                              <th>Publication</th>
+                              <th>Date</th>
+                              <th>Actions</th>
+                           </tr>
+                        </thead>
+                        {% for commentaire in commentaires %}
+                        <tbody>
+                           <tr>
+                              <td>{{forloop.counter}}</td>
+                              <td>{{commentaire.auteur.last_name}} {{commentaire.auteur.first_name}}</td>
+                              
+                              <td>{{commentaire.commentaire}}</td>
+                              <td>{{commentaire.publication.id}}</td>
+                              <td>{{commentaire.date_creation}}</td>
+                              <td>
+                                 <a href="" class="btn btn-danger my-2"><i class="bx bx-trash"></i></a>
+                              </td>
+                           </tr>
+                        </tbody>
+                        {% endfor %}
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      
+   </div>
+   <!-- footer -->
+   <div class="container-fluid">
+      <div class="footer">
+         <p>Copyright © 2022 Produit par <a href="{% url 'home' %}">TalentSport+</a>. Tous droits reservés.<br><br>
+         </p>
+      </div>
+   </div>
+</div>
+<!-- end dashboard inner -->
+{% endblock %}

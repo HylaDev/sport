@@ -1,0 +1,16 @@
+{% if messages %}
+    {%for message in messages %}
+        <div class="alert {{message.tags}} m-2" id="msg" role="alert">
+            
+            {% if 'success' in message.tags %}
+                <i class="bx bx-check-circle"></i> {{message}}
+            {% elif 'info' in message.tags %}
+                <i class="bx bx-info-circle"></i> {{message}}
+            {% elif 'warning' in message.tags %}
+                <i class="bx bx-exclamation-triangle"></i> {{message}}
+            {% elif 'danger' in message.tags or 'error' in message.tags %}
+                <i class="bx bx-exclamation-circle"></i> {{message}}
+            {% endif %}
+        </div>  
+    {%endfor%}
+{%endif%}

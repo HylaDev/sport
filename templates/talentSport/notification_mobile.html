@@ -1,0 +1,45 @@
+<a href="" class="mobile_display"> 
+    <i class="bx bx-bell" style="font-size:20px"></i> 
+    <span class="text-danger"> 
+
+        {% if notification.count == 0 %} 
+        {% else %}
+            {{notification.count}}
+        {% endif %}
+    </span> 
+</a>
+<ul>
+    {% for notification in notification %}
+    	{% if notification.publication %}
+    		{% if notification.type_notification == 1 %}
+    		<li class="">
+    			<a href="{% url 'notifi_pub' notification.id notification.publication.id %}">{{notification.expediteur.first_name}} {{notification.expediteur.last_name}} a aimé votre publication </a>
+    			<span class="text-danger" style="position: absolute;top: 0;right: 0;padding-right: 2%;"> &times;</span>
+    			
+    		</li>
+    		{% elif notification.type_notification == 2 %}
+    		<li>
+    			<a href="{% url 'notifi_pub' notification.id notification.publication.id %}">{{notification.expediteur.first_name}} {{notification.expediteur.last_name}} a commenté votre publication</a>
+    			<span class="text-danger" style="position: absolute;top: 0;right: 0;padding-right: 2%;"> &times;</span>
+    		</li>
+    		{% endif %}
+    	{% elif notification.commentaire %}
+    		{% if notification.type_notification == 1 %}
+    		<li>
+    			<a href="{% url 'notifi_pub' notification.id notification.commentaire.publication.id %}">{{notification.expediteur.first_name}} {{notification.expediteur.last_name}} a aimé votre commentaire</a>
+    			<span class="text-danger" style="position: absolute;top: 0;right: 0;padding-right: 2%;"> &times;</span>
+    		</li>
+    		{% elif notification.type_notification == 2 %}
+    		<li>
+    			<a href="{% url 'notifi_pub' notification.id notification.commentaire.publication.id %}">{{notification.expediteur.first_name}} {{notification.expediteur.last_name}} a répondu à votre commentaire</a>
+    			<span class="text-danger" style="position: absolute;top: 0;right: 0;padding-right: 2%;"> &times;</span>
+    		</li>
+    		{% endif %}
+    	{% else %}
+    	<li>
+    		<a href="{% url 'notif_abonne' notification.id notification.expediteur.id %}">{{notification.expediteur.first_name}} {{notification.expediteur.last_name}} a commencé à vous suivre</a>
+            <span class="text-danger" style="position: absolute;top: 0;right: 0;padding-right: 2%;"> &times;</span>
+    	</li>
+    	{% endif%}
+    {% endfor%}    
+</ul>

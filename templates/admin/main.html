@@ -1,0 +1,172 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+      <!-- site metas -->
+      <title>{%block title%}{%endblock%}</title>
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <!-- site icon -->
+      <link rel="icon" href="images/fevicon.png" type="image/png" />
+      <!-- bootstrap css -->
+      {%block styles%}
+      <link href="{% static 'assets/boxicons/css/boxicons.min.css'%}" rel="stylesheet">
+      <link rel="stylesheet" href="{% static 'css/admin/bootstrap.min.css'%}" />
+      <!-- site css -->
+      <link rel="stylesheet" href="{% static 'css/admin/style.css'%}" />
+      <!-- responsive css -->
+      <link rel="stylesheet" href="{% static 'css/admin/responsive.css'%}" />
+      <!-- color css -->
+      <link rel="stylesheet" href="{% static 'css/admin/color_2.css'%}" />
+      <!-- select bootstrap -->
+      <link rel="stylesheet" href="{% static 'css/admin/bootstrap-select.css'%}" />
+      <!-- scrollbar css -->
+      <link rel="stylesheet" href="{% static 'css/admin/perfect-scrollbar.css'%}" />
+      <!-- custom css -->
+      <link rel="stylesheet" href="{% static 'css/admin/custom.css'%}" />
+      <link rel="stylesheet" type="text/css" href="{% static 'css/admin/animate.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/admin/flaticon.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/admin/font-awesome.min.css'%}">
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+      {%endblock%}
+   </head>
+   <body class="dashboard dashboard_2">
+      <div class="full_container"> 
+         <div class="inner_container">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+               <div class="sidebar_blog_1">
+                  <div class="sidebar-header">
+                     <div class="logo_section">
+                        <a href="{% url 'dashbord' %}"><img class="logo_icon img-responsive" src="images/logo/logo_icon.png" alt="Logo" /></a>
+                     </div>
+                  </div>
+                  <div class="sidebar_user_info">
+                     <div class="icon_setting"></div>
+                     <div class="user_profle_side">
+                        <div class="user_info">
+                           <a href=""><h5>TalentSport+</h5></a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="sidebar_blog_2">
+                  <ul class="list-unstyled components">
+                     <li class="active">
+                        <a href="{% url 'dashbord' %}"><i class="bx bx-grid yellow_color"></i> <span>Tableau de bord</span></a>
+                     </li>
+                     <li>
+                        <a href="#apps" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="bx bx-user yellow_color"></i> <span>Gérer les utilisateurs</span></a>
+                        <ul class="collapse list-unstyled" id="apps">
+                           <li><a href="{% url 'utilisateurs' %}">  <span>Utilisateurs</span></a></li>
+                           <li><a href="{% url 'groupes' %}"> <span>Groupes Utilisateurs</span></a></li>
+                        </ul>
+                     </li>
+                     <li>
+                        <a href="#element" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="bx bx-group yellow_color"></i> <span>Gérer les comptes</span></a>
+                        <ul class="collapse list-unstyled" id="element">
+                           <li><a href="">  <span>Comptes</span></a></li>
+                           <li><a href=""> <span>Disciplines Sportives</span></a></li>
+                           <li><a href=""> <span>Niveaux</span></a></li>
+                           <li><a href=""> <span>Postes</span></a></li>
+                        </ul>
+                     </li>
+                     
+                     <li class="active">
+                        <a href="#additional_page" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="bx bx-news yellow_color"></i> <span> Gérer les publications</span></a>
+                        <ul class="collapse list-unstyled" id="additional_page">
+                           <li>
+                              <a href="{% url 'publication' %}"> <span>Publications</span></a>
+                           </li>
+                           <li>
+                              <a href="{% url 'commentaires' %}"> <span>Commentaires</span></a>
+                           </li>
+                           <li>
+                              <a href=""> <span>Notifications</span></a>
+                           </li>
+                        </ul>
+                     </li>
+                  </ul>
+               </div>
+            </nav>
+            <!-- end sidebar -->
+            <!-- right content -->
+            <div id="content">
+               <!-- topbar -->
+               <div class="topbar">
+                  <nav class="navbar navbar-expand-lg navbar-light">
+                     <div class="full">
+                        <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i class="bx bx-menu"></i></button>
+                        <div class="logo_section">
+                           
+                        </div>
+                        <div class="right_topbar">
+                           <div class="icon_info">
+                              <ul>
+                                 <li><a href="#"><i class="bx bx-search"></i></a></li>
+                                 <li><a href="#"><i class="bx bx-bell"></i><span class="badge"></span></a></li>
+                                 <li><a href="{% url 'home'%}"><i class="bx bx-globe"></i></a></li>
+                              </ul>
+                              <ul class="user_profile_dd" >
+                                 <li style="background-color: #fff !important; color: #000 !important;">
+                                    {% if request.user.compte.image %}
+                                    <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="{{ MEDIA_URL }}/{{ request.user.compte.image }}" alt="#" /><span style="color:#000;" class="name_user">{{request.user.first_name}} {{request.user.last_name}} <i class="bx bx-chevron-down"></i></span>
+                                    </a>
+                                    {% else %}
+                                    <a class="dropdown-toggle" data-toggle="dropdown">
+                                    <img class="rounded-circle img-fluid rounded" width="20" src="{% static 'images/default-user-icon-13.jpg'%}"><span style="color:#000;" class="name_user">{{request.user.first_name}} {{request.user.last_name}} <i class="bx bx-chevron-down"></i></span>
+                                    </a>
+                                    {% endif %}
+                                    <div class="dropdown-menu">
+                                       <a class="dropdown-item" href="">Profil</a>
+                                       <a class="dropdown-item" href="{% url 'deconnexion'%}"><span>Déconnexion</span> <i class="bx bx-log-out"></i></a>
+                                    </div>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                  </nav>
+               </div>
+               <!-- end topbar -->
+               {%block content%}
+               {%endblock%}
+            </div>
+         </div>
+</div>
+      
+   <!-- jQuery -->
+      <script src="{% static 'js/admin/jquery.min.js' %}"></script>
+      <script src="{% static 'js/admin/popper.min.js' %}"></script>
+      <script src="{% static 'js/admin/bootstrap.min.js'%}"></script>
+      <!-- wow animation -->
+      <script src="{% static 'js/admin/animate.js'%}"></script>
+      <!-- select country -->
+      <script src="{% static 'js/admin/bootstrap-select.js'%}"></script>
+      <!-- owl carousel -->
+      <script src="{% static 'js/admin/owl.carousel.js'%}"></script> 
+      <!-- chart js -->
+      <script src="{% static 'js/admin/Chart.min.js'%}"></script>
+      <script src="{% static 'js/admin/Chart.bundle.min.js'%}"></script>
+      <script src="{% static 'js/admin/utils.js'%}"></script>
+      <script src="{% static 'js/admin/analyser.js'%}"></script>
+      <!-- nice scrollbar -->
+      <script src="{% static 'js/admin/perfect-scrollbar.min.js'%}"></script>
+      <script>
+         var ps = new PerfectScrollbar('#sidebar');
+      </script>
+      <!-- custom js -->
+      <script src="{% static 'js/admin/custom.js'%}"></script>
+      <script src="{% static 'js/admin/chart_custom_style2.js'%}"></script>
+   </body>
+</html>

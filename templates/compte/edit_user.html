@@ -1,0 +1,308 @@
+{% extends 'home_main.html'%}{%load static%} 
+{%load static%}
+{%block title%}
+Profil - Modifier Informations - TalentSport
+{%endblock%}
+{%block content%}
+
+<main class="mt-4" style="margin:3%;"> 
+ 
+  <div class="mt-3">
+   
+    <div class="row ">
+      <div class="pub_annonce_btn col-lg-3 mb-4 mr-4" id="profil_links">
+        <a href="" style="font-size: 16px; color: #ffc800 !important ;">
+          <i class="bx bx-user" style="color:#ffc800; font-size: 22px;"></i> Mes informations
+        </a>
+        <hr>
+        {% for group in user.groups.all %}
+         {% if group.name == "Recruteur" %}
+           <a href="" style="font-size: 16px;color: #212529 ;">
+              <i class="bx bx-news" style="color:#ffc800; font-size: 22px;"></i> Mes annonces
+           </a>
+          {%elif group.name == "Sportif"%}
+            <a href="{% url 'user_publications' user.id %}" style="font-size: 16px;color: #212529 ;">
+              <i class="bx bx-news" style="color:#ffc800; font-size: 22px;"></i> Mes publications
+            </a>
+          {%else%}
+          {%endif%}
+        {% endfor %}
+        <hr>
+        <a href="{% url 'user_followers' user.id %}" style="font-size: 16px;color: #212529 ;">
+          <i class="bx bx-group" style="color:#ffc800; font-size: 22px;"></i> Mes abonnés
+        </a> 
+        <hr>
+        <a href="" style="font-size: 16px;color: #212529 ;">
+          <i class="bx bx-credit-card" style="color:#ffc800; font-size: 22px;"></i> Mon abonnement
+        </a>
+      </div>
+      <div class="col-lg-8 pub_annonce_btn mb-4">
+        <div class="container">
+         <h5>Modifier mes informations</h5>
+
+         <hr style="background-color:#ffc800 !important;">
+
+         <h3 class="mt-5 mb-3">Modifier Nom d'utilisateur & Autres</h3>
+         <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token  %}
+            <div class="row">
+              <div class="col-lg-6">
+                
+                  <span>
+                    Nom d'utilisateur
+                  </span>
+                  <input type="text" name="username" value="{{user.username}}" class="form-control my-2 ">
+                  
+              </div>
+              <div class="col-lg-6">
+                
+                  <span>
+                    Email
+                  </span>
+                  <input type="email" name="email" value="{{user.email}}" class="form-control my-2 ">
+                  
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                
+                  <span>
+                    Nom
+                  </span>
+                  <input type="text" name="last_name" value="{{user.last_name}}" class="form-control my-2 ">
+                  
+              </div>
+              <div class="col-lg-6">
+                
+                  <span>
+                    Prénom(s)
+                  </span>
+                  <input type="text" name="first_name" value="{{user.first_name}}" class="form-control my-2 ">
+                  
+              </div>
+            </div>
+            
+            <button class="btncolor btn my-4 publication_btn w-100">Enregistrer</button> 
+         </form>
+
+         <hr style="background-color:#ffc800 !important;">
+
+         <h3 class="mt-5">Modifier données personnelles</h3>
+         {% for group in user.groups.all %}
+         {% if group.name == "Sportif"%}
+         <form action="{% url 'edit_compte'%}" method="POST" enctype="multipart/form-data">
+            {% csrf_token  %}
+            <div class="row">
+              <div class="col-lg-6">
+                <span>
+                    Rôle :
+                  </span>
+                  <select name="role" class="form-control my-2">
+                    <option>{{user.compte.role}}</option>
+                    
+                    <option value="Joueur">Joueur</option>
+                    <option value="Coach">Coach</option>
+                  </select>
+              </div>
+              <div class="col-lg-6">
+                
+                  <span>
+                    Sexe :
+                  </span>
+                  <select name="sexe" class="form-control my-2">
+                    <option>{{user.compte.sexe}}</option>
+                    
+                    <option value="Masculin">Masculin</option>
+                    <option value="Féminin">Féminin</option>
+                  </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                
+                  <span>
+                  Adresse :
+                 </span>
+                <div class="d-flex">
+                  <input type="text" name="adresse" value="{{user.compte.adresse}}" placeholder="Entrez votre adresse ex: Cotonou" class="form-control my-2 ">
+                </div>
+                  
+              </div>
+              <div class="col-lg-6">
+                
+                  <span>
+                  Contact :
+                 </span>
+                <div class="d-flex">
+                  <input type="text" name="contact" value="{{user.compte.contact}}" placeholder="Entrez votre contact" class="form-control my-2 ">
+                </div>
+                  
+              </div>
+            </div>
+            <div class="row">
+             <div class="col-lg-6">
+                
+                 <span>
+                  Poids :
+                </span>
+                <div class="d-flex">
+                  <input type="text" name="poids" value="{{user.compte.poids}}" placeholder="Entrez votre poids ex: 50" class="form-control my-2 ">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                
+                 <span>
+                  Taille :
+                </span>
+                <div class="d-flex">
+                  <input type="text" name="taille" value="{{user.compte.taille}}" placeholder="Entrez votre poids ex: 1,72" class="form-control my-2 ">
+                </div>
+              </div>
+              
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                
+                  <span>
+                    Discipline sportive :
+                  </span>
+                 <select name="discipline_sportive" id="dis" class="form-control my-2">
+                    <option>{{ user.compte.discipline_sportive}}</option>
+                    {% for discipline_sportive in discipline_sportives %}
+                    <option value={{discipline_sportive.id}}>{{discipline_sportive.désignation}}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+              
+              <div class="col-lg-6">
+
+                  <span>
+                    Membre fort :
+                  </span>
+                  <select name="pied_main" class="form-control my-2">
+                    <option>{{user.compte.pied_main}}</option>
+                    <option value="Droit">Droit</option>
+                    <option value="Gauche">Gauche</option>
+                    <option value="Les deux">Les deux</option>
+                  </select>
+              </div>
+              <div class="col-lg-6">
+                
+                  <span>
+                    Poste :
+                  </span>
+                 <select name="poste" class="form-control my-2" id="pt">
+                    <option>{{user.compte.poste}}</option>
+                    {% for poste in postes %}
+                    <option value={{poste.id}}>{{poste.désignation}}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+              <div class="col-lg-6">
+                
+                  <span>
+                    Niveau :
+                  </span>
+                  <select name="niveau" class="form-control my-2">
+                    <option>{{user.compte.niveau}}</option>
+                    {% for niveau in niveaux %}
+                    <option value={{niveau.id}}>{{niveau.désignation}}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+            </div>
+            <div class="row">
+              
+              <div class="col-lg-12">
+               
+                  <span>
+                    Club actuel :
+                  </span>
+                  <input type="text" name="club_actuel" value="{{user.compte.club_actuel}}" placeholder="Entrez votre club actuel" class="form-control my-2">
+              </div>
+            </div>
+            <button class="btncolor btn my-4 publication_btn w-100">Modifier</button> 
+         </form>
+         {%elif group.name == "Recruteur"%}
+         <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token  %}
+          
+            <div class="row">
+              <div class="col-lg-6">
+                
+                  <span>
+                  Adresse :
+                 </span>
+                <div class="d-flex">
+                  <input type="text" name="adresse" value="{{user.compte.adresse}}" placeholder="Entrez votre adresse ex: Cotonou" class="form-control my-2 ">
+                </div>
+                  
+              </div>
+              <div class="col-lg-6">
+                
+                  <span>
+                  Contact :
+                 </span>
+                <div class="d-flex">
+                  <input type="text" name="contact" value="{{user.compte.contact}}" placeholder="Entrez votre contact" class="form-control my-2 ">
+                </div>
+                  
+              </div>
+            </div>
+            
+            <button class="btncolor btn my-4 publication_btn w-100">Modifier</button> 
+         </form>
+         {%else%}
+         {%endif%}
+         {%endfor%}
+
+         <hr style="background-color:#ffc800 !important;">
+
+         <h3 class="mt-5">Modifier mot de passe</h3>
+         <form action="{% url 'set_password'%}" method="POST" enctype="multipart/form-data">
+            {% csrf_token  %}
+          
+            <div class="row">
+              <div class="col-lg-6">
+                
+                  <span>
+                  Ancien mot de passe :
+                 </span>
+                <div class="d-flex">
+                  <input type="password" name="last_password"  placeholder="Entrez votre ancien mot de passe" class="form-control mt-2 ">
+                </div>
+                  
+              </div>
+              <div class="col-lg-6">
+                
+                  <span>
+                  Nouveau mot de passe :
+                 </span>
+                <div class="">
+                  <input type="password" name="new_password"  placeholder="Entrez votre nouveau mot de passe" class="form-control mt-2 ">
+                  <p class="text-gray" style="color:#808080">8 caractères au moins</p>
+                </div>
+                  
+              </div>
+              <div class="col-lg-6">
+                
+                  <span>
+                  Répétez nouveau mot de passe :
+                 </span>
+                <div class="d-flex">
+                  <input type="password" name="repeat_password"  placeholder="Répétez votre nouveau mot de passe" class="form-control mt-2 ">
+                </div>
+                  
+              </div>
+            </div>
+            
+            <button class="btncolor btn my-4 publication_btn w-100">Modifier</button> 
+         </form>
+      </div>
+      </div>
+    </div>
+  </div>
+</main>
+{%endblock%}
+
+

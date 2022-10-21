@@ -1,0 +1,98 @@
+{% extends 'compte_main.html'%}
+{%load static%} 
+
+{%block title%}
+Inscription | TalentSport
+{%endblock%} 
+{%block content%}
+    <div class="limiter">
+        <div class="container-login100" >
+            <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55" style="background-image: url('{% static 'images/bg1.jpg'%}') !important;">
+                <form action="" method="POST" class="login100-form validate-form flex-sb flex-w" >
+                    {% csrf_token  %}
+                    <span class="login100-form-title mb-4">
+                        <span style="color: #ffc800;">TalentSport+</span>
+                    </span>
+                    <h4 class="mb-2" style="font-weight: 500;">Commencer l'aventure avec nous 🚀</h4>
+                    <p class="mb-4" style="font-weight: 500;">Inscrivez-vous en remplissant les champs suivants</p>
+                    <span class="txt1 p-b-11">
+                        Groupe d'utilisateur <span class="text-danger">*</span>
+                    </span>
+                    <select name="group" class="form-control my-2 input100">
+                        <option selected>--Selectionner votre groupe--</option>
+                      {% for group in groups%}
+                        <option value ="{{group.id}}">{{group.name}}</option>
+                      {% endfor%}
+
+                    </select>
+                    <span class="txt1 p-b-11">
+                        Nom d'utilisateur <span class="text-danger">*</span>
+                    </span>
+                    <div class="wrap-input100 validate-input m-b-36 my-2" data-validate = "Nom d'utilisateur obligatoire">
+                        <input class="input100" type="text" name="username" placeholder="Entrez votre nom d'utilisateur" required>
+                        <span class="focus-input100"></span>
+                    </div>
+                    <span class="txt1 p-b-11">
+                        Nom <span class="text-danger">*</span>
+                    </span>
+                    <div class="wrap-input100 validate-input m-b-36 my-2" data-validate = "Nom est obligatoire">
+                        <input class="input100" type="text" name="last_name" placeholder="Entrez votre nom" required>
+                        <span class="focus-input100"></span>
+                    </div>
+                     <span class="txt1 p-b-11">
+                        Prénom <span class="text-danger">*</span>
+                    </span>
+                    <div class="wrap-input100 validate-input m-b-36 my-2" data-validate = "Prénom est obligatoire">
+                        <input class="input100" type="text" name="first_name" placeholder="Entrez votre prénom" required>
+                        <span class="focus-input100"></span>
+                    </div>
+                     <span class="txt1 p-b-11">
+                        Email <span class="text-danger">*</span>
+                    </span>
+                    <div class="wrap-input100 validate-input m-b-36 my-2" data-validate = "Email est obligatoire">
+                        <input class="input100" type="text" name="email" placeholder="Entrez votre email" required>
+                        <span class="focus-input100"></span>
+                    </div>
+                    <span class="txt1 p-b-11">
+                        Mot de passe <span class="text-danger">*</span>
+                    </span>
+                    <div class="wrap-input100 validate-input m-b-12 my-2" data-validate = "Mot de passe est obligatoire">
+                        <span class="btn-show-pass">
+                            <i class="bx bx-hide"></i>
+                        </span>
+                        <input class="input100" type="password" name="password1" placeholder="*********" required >
+                        <span class="focus-input100"></span>
+                        
+                    </div><p class="text-gray" style="color:#808080">8 caractères au moins</p>
+                    <span class="txt1 p-b-11">
+                        Répétez mot de passe <span class="text-danger">*</span>
+                    </span>
+                    <div class="wrap-input100 validate-input m-b-12 my-2" data-validate = "Mot de passe est obligatoire">
+                        <span class="btn-show-pass">
+                            <i class="bx bx-hide"></i>
+                        </span>
+                        <input class="input100" type="password" name="password2" placeholder="*********" required>
+                        <span class="focus-input100"></span>
+                    </div>
+                    <p class="my-2">
+                        <span class="text-danger txt3">*</span> Champs obligatoires
+                    </p>
+                    <div class="flex-sb-m w-full p-b-48 my-3">
+                        <div class="contact100-form-checkbox">
+                            <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                            <label class="label-checkbox100" for="ckb1">
+                                J'ai lu et j'accepte les termes & conditions d'utilisation
+                            </label> 
+                        </div>
+                    </div>
+                    
+                    <div class="container-login100-form-btn hov"> 
+                        <button type="submit" class="login100-form-btn w-100">S'inscrire</button>
+                    </div>
+                    <p class="mt-3">Vous avez déjà un compte? Connectez-vous <a href="{% url 'sign_in'%}" class="">ici</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{%endblock%}

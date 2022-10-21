@@ -1,0 +1,62 @@
+{% extends 'compte_main.html'%}
+{%load static%} 
+
+{%block title%}
+Connexion | TalentSport
+{%endblock%}
+{%block content%}
+<div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55" style="background-image: url('{% static 'images/bg1.jpg'%}') !important;">
+                <form action="" method="POST" class="login100-form validate-form flex-sb flex-w">
+                    {% csrf_token %}
+                    <span class="login100-form-title mb-5">
+                        <span style="color: #ffc800;">TalentSport+</span> 
+                    </span> 
+                    <h4 class="mb-2" style="font-weight: 500;">Bienvenue à nouveau 👋</h4>
+                    <p class="mb-4" style="font-weight: 500;">Connectez-vous à votre compte en renseignant les champs suivants </p>
+                    <span class="txt1 p-b-11">
+                        Nom d'utilisateur <span class="text-danger">*</span>
+                    </span>
+                    <div class="wrap-input100 validate-input m-b-36 my-2" data-validate = "Nom d'utilisateur obligatoire">
+                        <input class="input100" type="text" name="username" placeholder="Entrez votre nom d'utilisateur" required>
+                        <span class="focus-input100"></span>
+                    </div>
+                   
+                    <span class="txt1 p-b-11">
+                        Mot de passe <span class="text-danger">*</span>
+                    </span>
+                    <div class="wrap-input100 validate-input m-b-12 my-2" data-validate = "Mot de passe est obligatoire">
+                        <span class="btn-show-pass">
+                            <i class="bx bx-hide"></i>
+                        </span>
+                        <input class="input100" type="password" name="password" placeholder="*********" required >
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="flex-sb-m w-full p-b-48 my-3">
+                        <div class="contact100-form-checkbox">
+                            <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                            <label class="label-checkbox100" for="ckb1">
+                                Se souvenir
+                            </label> 
+                        </div>
+                    </div>
+                    <input type="hidden" name="next" value="{{request.path}}">
+                    <div class="container-login100-form-btn">
+                        <button type="submit" class="login100-form-btn w-100">Se connecter</button>
+                    </div>
+                     <div class="text-center">
+                            
+                    </div>
+                    <p class="my-3">Vous êtes nouveau? Créer un compte 
+                        <a href="{% url 'sign_up'%}" class="">ici</a> 
+                        <a href="#" class="txt3">
+                                Mot de passe oublié?
+                        </a></p>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+{%endblock%}

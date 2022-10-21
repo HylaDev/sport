@@ -1,0 +1,106 @@
+
+{% extends 'admin/main.html'%}
+{%load crispy_forms_tags%} 
+{%load static%}
+{%block title%}
+Modifier Publication - TalentSport+
+{%endblock%}
+{%block content%}
+
+<!-- dashboard inner -->
+<div class="midde_cont">
+   <div class="container-fluid">
+      <div class="row column_title">
+         <div class="col-md-12">
+            <div class="page_title">
+               <h2>Modifier publication</h2>
+            </div>
+         </div>
+      </div>
+      <div class="row column">
+         <div class="col-md-12">
+            <div class="white_shd full margin_bottom_30">
+               <div class="full graph_head">
+                  <div class="form-group">
+                  <form action="" method="POST">
+                     {% csrf_token %}
+                     
+                     {{form.as_p}}
+                     
+                  <!--<label>Utilisateur :</label>
+                  <select name="user" class="form-control my-2 input100 w-50">
+                     <option>{{publications.user.last_name}} {{publications.user.first_name}}</option>
+                     {% for user in users%}
+                     <option value ="{{user.id}}">{{user.last_name}} {{user.first_name}}</option>
+                     {% endfor%}
+                  </select>
+
+                  <label class="mt-2">Titre :</label>
+                  <input name="title" class="form-control my-2 w-50" value="{{publications.title}}"></input>
+
+                  <label class="mt-2">Corps :</label>
+                  <textarea name="pub_content" placeholder="{{publications.pub_content}}" rows="7" class="form-control my-2 w-50" required></textarea>
+                  
+                  <label class="mt-2">Catégorie :</label>
+                  <select name="categorie" class="form-control my-2 input100 w-50">
+                     <option>{{publications.categorie.désignation}}</option>
+                     {% for categorie in categories%}
+                     <option value ="{{categorie.id}}">{{categorie.désignation}} </option>
+                     {% endfor%}
+
+                  </select>
+                  
+                  <label class="mt-2">Discipline Sportive :</label>
+                  <select name="discipline_sportive" class="form-control my-2 input100 w-50">
+                     <option>{{publications.discipline_sportive}}</option>
+                     {% for discipline in disciplines%}
+                     <option value ="{{discipline.id}}">{{discipline.désignation}} </option>
+                     {% endfor%}
+
+                  </select>
+
+                  <label class="mt-2">Image :</label><br>
+                  <p>Actuelle: <a href="{{publications.image}}" class=" my-4">{{publications.image}}</a></p>
+                  <p>Choississez une nouvelle image :</p><input name="image" class="form-control w-50  my-2" type="file" value="{{publications.image}}"></input>
+
+                  <label class="mt-2">Vidéo :</label><br>
+                  <p>Actuelle: <a href="{{publications.video.url}}" class=" my-4">{{publications.video.url}}</a></p>
+                  <p>Choississez une nouvelle vidéo :</p><input name="video" class="form-control w-50  my-2" type="file" value="{{publications.video.url}}"></input>
+                  
+                  <label class="mt-2">Valide :</label>
+                  <select name="is_valid" class="form-control my-2 input100 w-50">
+                     {%if publications.is_valid == True%}
+                     <option>Oui</option>
+                     <option>Non</option>
+                     {%elif publications.is_valid == False%}
+                     <option>Non</option>
+                     <option>Oui</option>
+                     {%else%}
+                     <option>Oui</option>
+                     <option>Non</option>
+                     {%endif%}
+                  </select>-->
+
+                  <div>
+                     <button class="btn btn-secondary my-4" type="submit">Enregistrer</button>
+                  </div>
+                  </form>
+               </div>
+               </div> 
+               
+               
+            </div>
+         </div>
+      </div>
+      
+   </div>
+   <!-- footer -->
+   <div class="container-fluid">
+      <div class="footer">
+         <p>Copyright © 2022 Produit par <a href="{% url 'dashbord' %}">TalentSport+</a>. Tous droits reservés.<br><br>
+         </p>
+      </div>
+   </div>
+</div>
+<!-- end dashboard inner -->
+{% endblock %}

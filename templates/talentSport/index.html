@@ -1,0 +1,258 @@
+{% extends 'welcome_main.html'%}{%load static%} 
+
+{%block title%}
+Bienvenue - TalentSport
+{%endblock%}
+{%block content%}
+<main id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="">TalentSport+</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav mybtn ms-auto">
+                        <li class="nav-item "><a class="nav-link btn btn-primary" href="{% url 'sign_in'%}">Se connecter</a></li>
+                        <li class="nav-item"><a class="nav-link btn btn-secondary" href="{% url 'sign_up'%}">S'inscrire</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead bg-light mb-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-lg-6 col-sm-12">
+                        <div class="masthead-subheading">Bienvenue sur la plateforme qui vous permet de mettre en lumière votre talent dans le domaine du sport</div>
+                        <p class="masthead-heading">Rejoignez-nous pour plus de visibilité</p>
+                        <a class=" btn btn-primary" href="{% url 'sign_up'%}">Inscrivez-vous ici</a> ou 
+                        <a class="btn btn-secondary" href="{% url 'sign_in'%}">Connectez-vous ici</a>
+                        
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-sm-12">
+                        <img src="{% static 'images/bg.png'%}" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Services-->
+        <section class="page-section" id="services">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase" style="font-size: 25px;">Comment ça marche?</h2>
+                    <h3 class="section-subheading text-muted">En seulement deux étapes vous avez accès à tout! </h3>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-6">
+                        <img src="{% static 'images/thinking.png'%}" class="img-fluid" alt="aboutImage">    
+                    </div>
+                    <div class="col-md-6 mt-5 col-lg-6">
+                        <div class="row mt-5 d-flex">
+                            <div class="col-md-6 col-lg-6">
+                                <h4 class="my-1">
+                                  <img src="{% static 'images/register.png'%}" class="img-fluid" width="50" height="50">
+                                  Je m'inscrire
+                                </h4>
+                                <p class="text-muted text-justify">En quelques cliques vous pouvez créer un compte, c'est gratuit!</p>
+                            </div>
+                            <div class="col-md-6 col-lg-6">
+                                <h4 class=""> 
+                                    <img src="{% static 'images/profile.png'%}" class="img-fluid" width="50" height="50">
+                                    Mon compte
+                                </h4>
+                                <p class="text-muted text-justify">Publiez des images et vidéos de vos séance d'entrainement pour votre visibilité</p>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+        <!-- about-->
+        <section class="page-section">
+            <div class="container">
+                <div class="row">                    
+                    <div class="col-lg-6 col-sm-12 mb-12 mb-lg-0">
+                        <p class="text-justify">
+                            Vous avez du talent ou vous êtes passionnés d'une discipline sportive ? 
+                             Ne perdez pas le temps, Inscrivez-vous rapidement sur TalentSport+. Un vaste réseau de communication, de partage d'informations, d'opportunités vous attend.
+                             Démarrer une belle aventure avec nous 🚀</p>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 mb-12 mb-lg-0">
+                        <img src="{% static 'images/about1.png'%}" class="img-fluid" alt="aboutImage">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- discipline-->
+        <section class="page-section" id="about">
+            <div class="container">
+                <div class="text-center">
+                    <!--<h2 class="section-heading text-uppercase">Quelques disciplines</h2>-->
+                    <h3 class="section-subheading text-muted">Vous avez du talent dans une discipline sportive, rejoignez-nous donc pour le mettre en valeur!</h3>
+                </div>
+                <ul class="timeline">
+                    <li>
+                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="{% static 'disciplineImages/ball.jpg'%}" alt="..." /></div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>BasketBall</h4>
+                                <h4 class="subheading">Vous êtes né pour briller!</h4>
+                            </div>
+                            <div class="timeline-body invisible"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                        </div>
+                    </li>
+                    <li class="timeline-inverted">
+                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="{% static 'disciplineImages/football.jpg'%}" alt="..." /></div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>FootBall</h4>
+                                <h4 class="subheading">Venez mettre en lumière votre talent!</h4>
+                            </div>
+                            <div class="timeline-body invisible"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="{% static 'disciplineImages/volley.jpg'%}" alt="..." /></div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>VolleyBall</h4>
+                                <h4 class="subheading">Des opportuntés vous attendent!</h4>
+                            </div>
+                            <div class="timeline-body invisible"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                        </div>
+                    </li>
+                    <li class="timeline-inverted">
+                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="{% static 'disciplineImages/tennis.jpg'%}" alt="..." /></div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>Tennis</h4>
+                                <h4 class="subheading">Ne perdez pas le temps inscrivez-vous dès maintenant!</h4>
+                            </div>
+                            <div class="timeline-body invisible"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                        </div>
+                    </li>
+                    <li class="timeline-inverted">
+                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="{% static 'disciplineImages/logins.png'%}" alt="..." /></div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="subheading"><a href="" class="btn btn-primary">Cliquez-ici pour vous s'inscrire</a></h4>
+                            </div>
+                            
+                        </div>
+                        
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- Clients
+        <div class="py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-3 col-sm-6 my-3">
+                        <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/microsoft.svg" alt="..." /></a>
+                    </div>
+                    <div class="col-md-3 col-sm-6 my-3">
+                        <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/google.svg" alt="..." /></a>
+                    </div>
+                    <div class="col-md-3 col-sm-6 my-3">
+                        <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/facebook.svg" alt="..." /></a>
+                    </div>
+                    <div class="col-md-3 col-sm-6 my-3">
+                        <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/ibm.svg" alt="..." /></a>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+            <div class="icon-bar">
+                <a href="{% url 'sign_up'%}" class="facebook"><i class='bx bxs-user'></i></a>  
+            </div>
+          <div class=" modal fade register" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content container">
+                    <div class="modal-header">
+                      <div class="modal-title"> Quel est votre profil?</div>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                     </button>
+                    </div>
+                       <div class="p-3">
+                        <form method="post" action="update_profile"> 
+                          {% csrf_token %} 
+                           <div class="form-group">
+                            <label for="username">Nom d'utilisateur </label>
+                            <input type="text" class="form-control" id="username" name="username" value="">
+                           </div>
+
+                           <div class="form-group">
+                              <label for="mobile">Numéro de téléphone </label>
+                              <input type="text" class="form-control" id="mobile" name="mobile" value="">
+                           </div>
+                           <button class="btn btn-primary w-100">Valider</button>
+                        </form>
+                      </div>
+                  </div>
+                </div>
+          </div>
+          <a href="#" class="back-to-top" style="text-decoration: none;"><i class="bx bx-chevron-down-up"></i></a>
+       
+        <!-- Footer-->
+        <footer id="footer" class="">
+
+            <div class="footer-top bg-light">
+              <div class="container">
+                <div class="row">
+
+                  <div class="col-lg-4 col-md-6 footer-contact">
+                    <h3 class="logo mr-auto mb-4"><a href="{% url 'index'%}">TalentSport+</a></h3>
+                    <p>
+                      Mettez votre talent en lumière avec nous!
+                    </p> <br>
+                    <a href=""> <img src="{% static 'images/facebook.png'%}" class="img-fluid social-links" width="30" height="30"></a>
+                  </div>
+
+                  <div class="col-lg-4 col-md-6 footer-links">
+                    <h4 class="mb-4">Liens rapides</h4>
+                    <ul>
+                      <li> <a href="{% url 'sign_in'%}">Connexion</a></li>
+                      <li> <a href="{% url 'sign_up'%}">Inscription</a></li>
+                    </ul>
+                  </div>
+
+                  <div class="col-lg-4 col-md-6 footer-links ">
+                    <h4 class="mb-4">TalentSport+</h4> 
+                    <ul>
+                      <li><a href="#">Confidentialité</a></li>
+                      <li> <a href="#">Conditions d'utilisations</a></li>
+                      <li></i> <a href="#">Contact</a></li>
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="container py-4">
+
+              <div class="text-center">
+                <div class="copyright">
+                    Copyright &copy; 2022 <strong><span>TalentSport+</span></strong>. Tout droits réservés
+                </div>
+                <div class="credits">
+                  Produit <a href="#">HylaDev</a>
+                </div>
+              </div>
+              
+            </div>
+        </footer>
+        <!-- End Footer -->
+       
+</main>
+{%endblock%}
+

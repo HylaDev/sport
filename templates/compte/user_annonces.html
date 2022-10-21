@@ -1,0 +1,117 @@
+{% extends 'home_main.html'%}{%load humanize %} 
+{%load static%}
+{%block title%}
+Profil - Mes Annonces - TalentSport
+{%endblock%}
+{%block content%}
+
+<main class="mt-4" style="margin:3%;" > 
+ 
+  <div class="mt-3">
+   
+    <div class="row ">
+      <div class="pub_annonce_btn col-lg-3 mb-4 mr-4" id="profil_links">
+        <a href="{% url 'profil' user.id %}" style="font-size: 16px; color: #212529 !important ;">
+          <i class="bx bx-user" style="color:#ffc800; font-size: 22px;"></i> Mes informations
+        </a>
+        <hr>
+        {% for group in user.groups.all %}
+         {% if group.name == "Recruteur" %}
+           <a href="" style="font-size: 16px;color: #ffc800 ;">
+              <i class="bx bx-news" style="color:#ffc800; font-size: 22px;"></i> Mes annonces
+           </a>
+          {%elif group.name == "Sportif"%}
+            <a href="{% url 'user_annonces' user.id %}" style="font-size: 16px;color: #212529; ">
+              <i class="bx bx-news" style="color:#ffc800; font-size: 22px;"></i> Mes publications
+            </a>
+          {%else%}
+          {%endif%}
+        {% endfor %}
+        <hr>
+        <a href="{% url 'user_followers' user.id %}" style="font-size: 16px;color: #212529 ;">
+          <i class="bx bx-group" style="color:#ffc800; font-size: 22px;"></i> Mes abonnés
+        </a> 
+        <hr>
+        <a href="" style="font-size: 16px;color: #212529 ;">
+          <i class="bx bx-credit-card" style="color:#ffc800; font-size: 22px;"></i> Mon abonnement
+        </a>
+      </div>
+      <div class="col-lg-6 mb-4 ">
+         <div class="">
+          {% if annonces%}
+          {% for annonce in annonces %}
+            {%if annonce.categorie.désignation == "Annonce"%}
+            <div class="card mb-3 mr-3" id="card">
+              <div class="card-header bg-white" id="link_hover">
+                <p class="text-right pub_text" style="cursor: pointer;"> <i class="bx bx-dots-horizontal-rounded"></i></p>
+                <div class="container" >
+                <a href="{%if annonce.user == request.user%}/compte/profil/{{user.id}}{%else%}/compte/detail/{{annonce.user.id}}{%endif%}" > 
+                   <h6 class="card-title d-flex">
+                    <div class="row">
+                    {% if annonce.user.compte.image%}
+                    <img class="img-fluid"  src="{{ MEDIA_URL }}/{{ annonce.user.compte.image }}"> 
+                    {%else%}
+                    <img class="rounded-circle img-fluid rounded" width="40" height="40" src="{% static 'images/default-user-icon-13.jpg'%}">
+                    {%endif%}
+                    <p class="ml-2"><span class="text-black">{{annonce.user.first_name}} {{annonce.user.last_name}}</span> <br>
+                     <span class="pub_text"> {{annonce.date_creation | naturaltime}} . Recruteur</span></p>
+
+                   </div>
+                  </h6>
+                </a>
+                </div>
+                
+                <a href="/detail_publication/{{annonce.id}}">
+                  <p >{{annonce.pub_content}}</p>
+                </a>
+                {% if annonce.image == '' %}
+                {% else %}
+                <a href="/detail_publication/{{annonce.id}}">
+                  <img src="{{ MEDIA_URL }}/{{annonce.image}}" alt="image" height="50" class="img-fluid rounded my-2" >
+                </a>
+                {%endif%}
+                {% if annonce.videofile == '' %}
+                {%else%}
+                  <video autoplay="autoplay" controls="controls" class="img-fluid rounded" preload="preload">
+                    <source src="{{ MEDIA_URL }}/{{ annonce.videofile }}" type="video/mp4"></source>
+                  </video>                  
+                {% endif %}
+              </div>
+              <div class="card-footer bg-white d-flex">
+                <p>
+                  <form method="post" action="{% url 'like' annonce.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{request.path}}">
+                    <button class="btn btn-outline-secondary rounded pub_btn">
+                      <i class="bx bx-like"></i> 
+                      <span class="hide">
+                        J'aime 
+                      </span>
+                      <span>
+                        {% if annonce.likes.all %}
+                        {{annonce.likes.all.count}}
+                        {%else%}
+                        {%endif%}
+                      </span>
+                    </button>
+                  </form>
+                </p>
+                <p class="mx-1"><a href="/detail_publication/{{annonce.id}}" class="btn btn-outline-secondary rounded pub_btn" ><i class="bx bx-comment"></i> <span class="hide">Commentaire</span>
+                </a></p>
+                <p class="img-fluid"><button class="btn btn-outline-secondary rounded pub_btn"><i class="bx bx-share"></i><span class="hide"> Partarger</span> </button></p>
+              </div>
+            </div>
+            {%else%}
+            {%endif%}
+          {% endfor %}
+          {%else%}
+          <div class="pub_annonce_btn container">
+            <p>Vous n'avez aucunes annonces</p>
+          </div>
+          {%endif%}
+         </div>
+      </div>
+    </div>
+  </div>
+</main>
+{%endblock%}

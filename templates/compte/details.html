@@ -1,0 +1,293 @@
+{% extends 'home_main.html'%}{%load static%} 
+{%load static%}
+{%load humanize %} 
+{%block title%}
+Détail Profil - TalentSport
+{%endblock%}
+{%block content%}
+
+<main class="mt-4" style="margin:3%;">
+
+  <div class="mt-3">
+    <div class="row pub_annonce_btn">
+      <div class="col-lg-4">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5 image-circle">
+              {% if user.compte.image%}
+              <img class="rounded-circle img-fluid rounded" width="130" src="{{ MEDIA_URL }}/{{ user.compte.image }}">
+              {% else %}
+              <img class="rounded-circle img-fluid rounded" width="130" src="{% static 'images/default-user-icon-13.jpg'%}">
+              {% endif %}
+              <h4 class="font-weight-bold my-1">{{user.first_name}} {{user.last_name}}</h4>
+              
+              {% if is_following %} 
+              <form action="{% url 'se_desabonne' user.id %}">
+                {% csrf_token%}
+                <button type="submit" class="btn btn-outline-danger my-3 mx-3">Se désabonner</button>
+              </form>
+              {%else%}
+              <form action="{% url 'ajouter_abonne' user.id %}">
+                {% csrf_token%}
+                <button type="submit" class="btn btn-outline-success my-3 mx-3">S'abonner</button>
+              </form>
+              {%endif%}
+              <div class="d-flex">
+                <div class="mx-2">
+                  <span>{{nbre_abonne}}</span>
+                  <p>Abonné</p>
+                </div>
+                <div class="mx-2">
+
+                  {% if nbre_pubs == 0 %}
+                  <span>0</span>
+                  {%else%}
+                  <span>{{nbre_pubs}}</span>
+                  {%endif%}
+                  {% for group in user.groups.all%}
+                  {% if group.name == "Sportif"%}
+                  <p>Publication</p>
+                  {% elif group.name == "Recruteur"%}
+                  <p>Annonce</p>
+                  {% else %}
+                  {%endif%}
+                  {%endfor%}
+                </div>
+              </div>
+            </div>        
+      </div>
+      {% for group in user.groups.all %}
+        {% if group.name == "Sportif"%}
+          <div class="col-lg-7">
+            <div class="row">
+               <div class="col-lg-6 mt-2">
+                  <h6 class="mt-2"><i class="bx bx-grid"></i>
+                    <span class="">Discipline</span> :
+                    <span class="">
+                      {%if user.compte.role%} {{user.compte.role}}/{{user.compte.discipline_sportive}}{%else%}Pas encore renseigné{%endif%}
+                    </span>
+                  </h6>
+                  <hr>
+                  <h6 class="mt-2">
+                    <i class="bx bx-bullseye"></i>
+                    <span class="">Membre fort</span>  :
+                    <span class="">{%if user.compte.pied_main%} {{user.compte.pied_main}}{%else%}Pas encore renseigné{%endif%}</span>
+                  </h6>
+                  <hr>
+                  <h6 class="mt-2">
+                    <i class="bx bx-category-alt"></i>
+                    <span class="">Poste</span>  :
+                    <span class="">{%if user.compte.poste%} {{user.compte.poste}}{%else%}Pas encore renseigné{%endif%}</span>
+                  </h6>
+                  <hr>
+                  <h6 class="mt-2">
+                    <i class="bx bx-move-vertical"></i>
+                    <span class="">Taille</span>  :
+                    <span class="">{%if user.compte.taille%} {{user.compte.taille}} m {%else%}Pas encore renseigné{%endif%}</span>
+                  </h6>
+                  <hr>
+                  <h6 class="mt-2">
+                    <i class="bx bx-move-horizontal"></i>
+                    <span class="">Poids</span>  :
+                    <span class="">{%if user.compte.poids%} {{user.compte.poids}} kg {%else%}Pas encore renseigné{%endif%}</span>
+                  </h6>
+                  <hr>
+               </div>
+               <div class="col-lg-6 mt-2">
+                  <h6 class="mt-2">
+                    <i class="bx bx-calendar"></i>
+                    <span class="">Date de naissances</span>  :
+                    <span class="">{%if user.compte.date_naissance%} {{user.compte.date_naissance}} {%else%}Pas encore renseigné{%endif%}</span>
+                  </h6>
+                  <hr>
+                  <h6 class="mt-2">
+                    <i class="bx bx-sign"></i>
+                    <span class="">Sexe</span>  :
+                    <span class="">{% if user.compte.sexe%} {{user.compte.sexe}} {%else%}Pas encore renseigné{%endif%}</span>
+                  </h6>
+                  <hr>
+                  <h6 class="mt-2">
+                    <i class="bx bx-envelope"></i>
+                    <span class="">Contact</span>  :
+                    <span class="">{%if user.compte.contact%} {{user.compte.contact}}/{{user.email}} {%else%}Pas encore renseigné{%endif%}</span>
+                  </h6>
+                  <hr>
+                  <h6 class="mt-2">
+                    <i class="bx bx-id-card"></i>
+                    <span class="">Adresse</span>  :
+                    <span class="">{%if user.compte.adresse%} {{user.compte.adresse}} {%else%}Pas encore renseigné{%endif%}</span>
+                  </h6>
+                  <hr>
+                  <h6 class="mt-2">
+                    <i class="bx bx-notepad"></i>
+                    <span class="">Club actuel</span>  :
+                    <span class="">{%if user.compte.club_actuel%} {{user.compte.club_actuel}} {%else%}Pas encore renseigné{%endif%}</span>
+                  </h6>
+                  <hr>
+               </div>
+               <div class="col-lg-4">
+               </div>
+            </div>
+            {% for pub in pubs %} 
+              {% if pub.categorie.désignation == "Publication" %}
+                <div class="card mt-3 mb-3" id="card">
+                  <div class="card-header bg-white"  id="link_hover">
+                    <p class="text-right pub_text" style="cursor: pointer;"> <i class="bx bx-dots-horizontal-rounded"></i></p>
+                    <div class="container">
+                      <a href="{%if pub.user == request.user%}/compte/profil/{{user.id}}{%else%}/compte/detail/{{pub.user.id}}{%endif%}" c> 
+                         <h6 class="card-title d-flex">
+                          <div class="row">
+                          {% if pub.user.compte.image%}
+                          <img class="img-fluid"  src="{{ MEDIA_URL }}/{{ pub.user.compte.image }}"> 
+                          {%else%}
+                          <img class="rounded-circle img-fluid rounded" width="40" height="40" src="{% static 'images/default-user-icon-13.jpg'%}">
+                          {%endif%}
+                          <p class="ml-2"><span class="text-black">{{pub.user.first_name}} {{pub.user.last_name}}</span> <br>
+                           <span class="pub_text"> {{pub.date_creation | naturaltime}} . Sportif</span></p>
+
+                         </div>
+                        </h6>
+                       </a>
+                    </div>
+                    <a href="/detail_publication/{{pub.id}}">
+                      <p>{{pub.pub_content}}</p>
+                    </a>
+                    {% if pub.image == '' %}
+                    {% else %}
+                    <a href="/detail_publication/{{pub.id}}">
+                      <img src="{{ MEDIA_URL }}/{{pub.image}}" alt="image" height="50" class="img-fluid rounded my-2" >
+                    </a>
+                    {%endif%}
+                    {% if pub.videofile == '' %}
+                    {%else%}
+                      <video autoplay="autoplay" controls="controls" class="img-fluid rounded" preload="preload">
+                        <source src="{{ MEDIA_URL }}/{{ pub.videofile }}" type="video/mp4"></source>
+                      </video>                  
+                    {% endif %}
+                </div>
+                <div class="card-footer bg-white d-flex">
+                  <p>
+                    <form method="post" action="{% url 'like' pub.id %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="next" value="{{request.path}}">
+                      <button class="btn btn-outline-secondary rounded pub_btn">
+                        <i class="bx bx-like"></i> 
+                        <span class="hide">
+                          J'aime 
+                        </span>
+                        <span>
+                          {% if pub.likes.all %}
+                          {{pub.likes.all.count}}
+                          {%else%}
+                          {%endif%}
+                        </span>
+                      </button>
+                    </form>
+                  </p>
+                  <p class="mx-1"><a href="/detail_publication/{{pub.id}}" class="btn btn-outline-secondary rounded pub_btn" ><i class="bx bx-comment"></i> <span class="hide">Commentaire</span>
+                  {{commentaire}}</a></p>
+                  <p class="img-fluid"><button class="btn btn-outline-secondary rounded pub_btn"><i class="bx bx-share"></i><span class="hide"> Partarger</span> </button></p>
+                </div>
+              </div>
+              {%else%}
+              {%endif%}
+            {% endfor %}
+          </div>
+            
+        {% elif group.name == "Recruteur"%}
+          <div class="col-lg-7">
+            <div class="row">
+               <div class="col-lg-12 mt-2">
+                  
+                  <h6 class="mt-2">
+                    <i class="bx bx-phone"></i>
+                    <span class="">Contact</span>  :
+                    <span class=""> {{user.compte.contact}}</span>
+                  </h6>
+                  <hr>
+                  <h6 class="mt-2">
+                    <i class="bx bx-envelope"></i>
+                    <span class="">Email</span>  :
+                    <span class=""> {{user.email}}</span>
+                  </h6>
+                  <hr>
+                  <h6 class="mt-2">
+                    <i class="bx bx-id-card"></i>
+                    <span class="">Adresse</span>  :
+                    <span class=""> {{user.compte.adresse}}</span>
+                  </h6>
+                  <hr>
+               </div>
+               <div class="col-lg-4">
+               </div>
+            </div> 
+            {% for pub in pubs %} 
+              {% if pub.categorie.désignation == "Annonce" %}
+                <div class="card mt-3 mb-3" id="card">
+                  <div class="card-header bg-white"  id="link_hover">
+                    <p class="text-right pub_text" style="cursor: pointer;"> <i class="bx bx-dots-horizontal-rounded"></i></p>
+                    <div class="container">
+                      <a href="{%if pub.user == request.user%}/compte/profil/{{user.id}}{%else%}/compte/detail/{{pub.user.id}}{%endif%}" c> 
+                         <h6 class="card-title d-flex">
+                          <div class="row">
+                          {% if pub.user.compte.image%}
+                          <img class="img-fluid"  src="{{ MEDIA_URL }}/{{ pub.user.compte.image }}"> 
+                          {%else%}
+                          <img class="rounded-circle img-fluid rounded" width="40" height="40" src="{% static 'images/default-user-icon-13.jpg'%}">
+                          {%endif%}
+                          <p class="ml-2"><span class="text-black">{{pub.user.first_name}} {{pub.user.last_name}}</span> <br>
+                           <span class="pub_text"> {{pub.date_creation | naturaltime}} . Sportif</span></p>
+
+                         </div>
+                        </h6>
+                       </a>
+                    </div>
+                    <a href="/detail_publication/{{pub.id}}">
+                      <p>{{pub.pub_content}}</p>
+                    </a>
+                    {% if pub.image == '' %}
+                    {% else %}
+                    <a href="/detail_publication/{{pub.id}}">
+                      <img src="{{ MEDIA_URL }}/{{pub.image}}" alt="image" height="50" class="img-fluid rounded my-2" >
+                    </a>
+                    {%endif%}
+                    {% if pub.videofile == '' %}
+                    {%else%}
+                      <video autoplay="autoplay" controls="controls" class="img-fluid rounded" preload="preload">
+                        <source src="{{ MEDIA_URL }}/{{ pub.videofile }}" type="video/mp4"></source>
+                      </video>                  
+                    {% endif %}
+                </div>
+                <div class="card-footer bg-white d-flex">
+                  <p>
+                    <form method="post" action="{% url 'like' pub.id %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="next" value="{{request.path}}">
+                      <button class="btn btn-outline-secondary rounded pub_btn">
+                        <i class="bx bx-like"></i> 
+                        <span class="hide">
+                          J'aime 
+                        </span>
+                        <span>
+                          {% if pub.likes.all %}
+                          {{pub.likes.all.count}}
+                          {%else%}
+                          {%endif%}
+                        </span>
+                      </button>
+                    </form>
+                  </p>
+                  <p class="mx-1"><a href="/detail_publication/{{pub.id}}" class="btn btn-outline-secondary rounded pub_btn" ><i class="bx bx-comment"></i> <span class="hide">Commentaire</span>
+                  {{commentaire}}</a></p>
+                  <p class="img-fluid"><button class="btn btn-outline-secondary rounded pub_btn"><i class="bx bx-share"></i><span class="hide"> Partarger</span> </button></p>
+                </div>
+              </div>
+              {%else%}
+              {%endif%}
+            {% endfor %}
+          </div>
+        {% else %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</main>
+{%endblock%}

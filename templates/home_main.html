@@ -1,0 +1,313 @@
+{% load static %}
+{% load custom_tags %}
+{% load my_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{%block title%}{%endblock%}</title>
+	{%block styles%}
+	<!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico'%}" />
+    <!-- Font Awesome icons (free version)-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.min.css'%}">   
+    <link href="{% static 'assets/boxicons/css/boxicons.min.css'%}" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/777bd1b18f.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="{% static 'css/home.css'%}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{% static 'assets/bootstrap/css/bootstrap.min.css'%}">
+    <!--Semantic UI-->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    {%endblock%}
+    {% block extrastyles%}
+    {%endblock%}
+</head>
+<body>
+    <header id="header" class="fixed-top">
+        <div class="ml-5 mr-5">
+          <div class="logo float-left d-flex">
+              <a class="navbar-brand mr-5" href="{% url 'home'%}">TalentSport+</a>
+              <div class="search-group display ml-5">
+                    <form action="{% url 'Search' %}" method="GET">
+                        {% csrf_token %}
+                      <div class="input-group">
+                        <input type="search" class="form-control w-100" placeholder="Rechercher ici..." aria-label="Rechercher ici" aria-describedby="basic-addon2" name="query" value="{{ request.GET.query }}">
+                        <div class="input-group-append my-1">
+                            <button class="btn btn-outline-secondary"><i class="bx bx-search"></i></button>
+                        </div>
+                      </div>
+                    </form>
+                </div>
+          </div>
+          <nav class="nav-menu float-right d-none d-lg-block">
+                <ul>
+                    <li><a href=""><i class="bx bx-home"></i> Accueil </a></li>
+                    <li>
+                        <div class="dropdown">
+                          <button class="dropbtn" onclick="myFunction()"><i class="bx bx-grid"></i> Disciplines Sportives
+                            <i class="bx bx-chevron-down"></i>
+                          </button>
+                          <div class="dropdown-content" id="myDropdown">
+                              {% for discipline_sportive in discipline_sportives %}
+                                  <a href="/publication_discipline/{{discipline_sportive.id}}">{{discipline_sportive.désignation}}</a>
+                              {% endfor%}
+                          </div>
+                        </div>
+                    </li>
+                    <li class="drop-down">{% notification %}</li>
+                    {%if user.is_superuser == True %}
+                    <li><a href="{% url 'dashbord' %}"><i class="bx bx-grid"></i> Administation </a></li>
+                    {%else%}
+                    <li>
+                        <div class="dropdown">
+                            <button class="dropbtn" onclick="dropdownCompte()">
+                                {% if request.user.compte.image %}
+                                    <img class="rounded-circle img-fluid rounded" width="20" src="{{ MEDIA_URL }}/{{ request.user.compte.image }}">
+                                {% else %}
+                                    <img class="rounded-circle img-fluid rounded" width="20" src="{% static 'images/default-user-icon-13.jpg'%}">
+                                {% endif %}
+                                {{request.user.first_name}} {{request.user.last_name}}
+                                <i class="bx bx-chevron-down"></i>
+                            </button>
+                            <div class="dropdown-content" id="dropdown_compte">
+                                <a href="/compte/profil/{{request.user.id}}"> <i class="bx bx-user"></i> Compte</a>
+                                <a href="{% url 'logout_view'%}"> <i class="bx bx-log-out"></i> Déconnexion</a>
+                            </div>
+                        </div>
+                    </li>
+                    {%endif%}
+                </ul>
+            </nav>
+            <nav class="nav-menu float-right  d-lg-block mobile_display">
+                <ul>
+                    <li><a href="" class="mobile_display"><i class="bx bx-search"></i> </a></li> 
+                    <li class="drop-down">{%notif%}</li>
+                    <li><a href="" class="mobile_display"><i class="bx bx-menu"></i> </a></li>
+                </ul>
+            </nav>
+        <!-- .nav-menu -->
+        </div>
+    </header><!-- End Header -->
+<br><br><br>
+  {%include 'message.html'%}
+{%block content%}
+{%endblock%}
+{% block scripts %}    
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="{% static 'js/home_main.js'%}"></script>
+<script src="{% static 'assets/bootstrap/js/bootstrap.min.js'%}"></script>
+<script src="{% static 'assets/jquery/jquery-3.2.1.min.js'%}"></script>
+<script type="text/javascript" src="{% static 'js/semantic.js'%}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'js/sport.js'%}"></script>
+<!--Disciplines dropdown script-->
+<script>
+
+    function myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+    window.onclick = function(e) {
+      if (!e.target.matches('.dropbtn')) {
+      var myDropdown = document.getElementById("myDropdown");
+        if (myDropdown.classList.contains('show')) {
+          myDropdown.classList.remove('show');
+        }
+      }
+    }
+</script>
+<!--End disciplines dropdown script-->
+
+<!--UserCompte dropdown script-->
+<script>
+    function dropdownCompte() {
+      document.getElementById("dropdown_compte").classList.toggle("show");
+    }    
+    window.onclick = function(e) {
+      if (!e.target.matches('.dropbtn')) {
+      var myDropdown = document.getElementById("dropdown_compte");
+        if (myDropdown.classList.contains('show')) {
+          myDropdown.classList.remove('show');
+        }
+      }
+    }
+</script>
+<!--End user compte dropdown script-->
+
+<!--Publications dropdown script-->
+<script>
+
+    function pubDrop() {
+      document.getElementById("pub_drop").classList.toggle("show");
+    }
+    window.onclick = function(e) {
+      if (!e.target.matches('.dropbtn')) {
+      var myDropdown = document.getElementById("pub_drop");
+        if (myDropdown.classList.contains('show')) {
+          myDropdown.classList.remove('show');
+        }
+      }
+    }
+</script>
+<!--End disciplines dropdown script-->
+<!--Display poste based disciplines script-->
+<script>
+    $("#formAdd select[name='discipline_sportive']").on('change',function(){
+        console.log('Bien changé');
+        var $this = $(this);
+ 
+        if ($this.val() != ''){
+            $("#formAdd select[name='poste']").find('.after').nextAll().remove();
+            $.ajax({
+                url:'/compte/'+$this.val(),
+                type:'GET',
+                success: function(response){
+                    let options = '';
+                    response.data.forEach(poste => {
+                        options+='<option value='+poste.id+'>'+poste.désignation+'</option>';
+                    });
+                    $("#formAdd select[name='poste']").find('.after').after(options);
+
+                },
+                error: function(response){
+                    console.log('Aucune discipline n\'a cet identifiant');
+                }
+            });
+        }else{
+            $("#formAdd select[name='poste']").find('.after').nextAll().remove();
+        }
+    });
+</script>
+<!--End display poste based disciplines script-->
+
+<!--Agent input script-->
+<script>
+    $(document).ready(function() {
+    var max_fields      = 10; //maximum input boxes allowed
+    var wrapper         = $(".input_fields_wrap"); //Fields wrapper
+    var add_button      = $(".add_field_button"); //Add button ID
+   
+    var x = 1; //initlal text box count
+    
+    
+   $(add_button).click(function(e){ //on add input button click
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+    
+             //text box increment
+            $(wrapper).append('<div class=""><input type="text" placeholder="Entrez le nom d\'un agent" class="form-control my-2" name="historique_club" required><a href="#" class="remove_field "> Supprimer</a></div>'); //add input box
+            x++; 
+      }
+    });
+   
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+       
+        e.preventDefault(); 
+        $(this).parent('div').remove(); 
+        x--;
+    })
+   });
+</script>
+<!--End agent input script-->
+
+<!--Image input script-->
+<script>
+    $(document).ready(function() {
+    var max_fields      = 1; //maximum input boxes allowed
+    var wrapper         = $(".fields_wrap"); //Fields wrapper
+    var add_button      = $(".add_button"); //Add button ID
+   
+    var x = 0; //initlal text box count
+    
+    
+   $(add_button).click(function(e){ //on add input button click
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+    
+             //text box increment
+            $(wrapper).append('<div class=""><input type="file" class="form-control my-2" name="image" required><a href="#" class="remove_field "> Supprimer </a></div>'); //add input box
+            x++; 
+      }
+    });
+   
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+       
+        e.preventDefault(); 
+        $(this).parent('div').remove(); 
+        x--;
+    })
+  });
+</script>
+<!--End image input script-->
+
+<!--Video input script-->
+<script>
+    $(document).ready(function() {
+    var max_fields      = 1; //maximum input boxes allowed
+    var wrapper         = $(".video_field_wrap"); //Fields wrapper
+    var add_button      = $(".add_video_button"); //Add button ID
+   
+    var x = 0; //initlal text box count
+    
+    
+   $(add_button).click(function(e){ //on add input button click
+        e.preventDefault();
+        if(x < max_fields){ //max input box allowed
+    
+             //text box increment
+            $(wrapper).append('<div class="d-fle"><input type="file" class="form-control my-2" name="videofile" required> <a href="# mt-5" class="remove_field "> Supprimer </a></div>'); //add input box
+            x++; 
+      }
+    });
+   
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+       
+        e.preventDefault(); 
+        $(this).parent('div').remove(); 
+        x--;
+    })
+  });
+</script>
+<!--End video input script-->
+
+<!--Repply to comment form script-->
+<script type="text/javascript">
+    function commentReplyToggle(parent_id)
+    {
+        const row = document.getElementById('parent_id');
+        if (row.classList.contains('d-none')){
+            row.classList.remove('d-none');
+
+        }else{
+            row.classList.add('d-none');
+        }
+  
+    }
+</script>
+<!--End repply to comment form script-->
+
+<!--Faqs collapse script-->
+<script type="text/javascript">
+    const btns = document.querySelectorAll('.faq-toggle');
+
+    btns.forEach(btn =>{
+    btn.addEventListener('click', ()=> {
+        btn.parentNode.classList.toggle('active');
+    })
+   })
+</script>
+<!--End faqs collapse script-->
+{% endblock %}
+{% block extrascripts %}  
+
+{% endblock %}
+</body>
+</html>

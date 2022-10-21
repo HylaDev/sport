@@ -1,0 +1,48 @@
+<a href=""> <i class="bx bx-bell"></i> Notifications <span class="text-danger">{% if notifications.count == 0 %}{% else %}{{notifications.count}} {% endif %}</span> <i class="bx bx-chevron-down"></i></a>
+	<ul>
+      {% for notification in notifications %}
+      	{% if notification.publication %}
+      		{% if notification.type_notification == 1 %}
+      		<li class="">
+      			<a href="{% url 'notifi_pub' notification.id notification.publication.id %}">{{notification.expediteur.first_name}} {{notification.expediteur.last_name}} a aimé votre publication </a>
+      			<span class="text-danger" onclick="retirerNotification(`{% url 'sup_notif' notification.id %}`, `{{ request.path }}`)" style="position: absolute;top: 0;right: 0;padding-right: 2%; cursor: pointer;"> &times;</span>
+      			 
+      		</li>
+      		{% elif notification.type_notification == 2 %}
+      		<li>
+      			<a href="{% url 'notifi_pub' notification.id notification.publication.id %}">{{notification.expediteur.first_name}} {{notification.expediteur.last_name}} a commenté votre publication</a>
+      			<span class="text-danger" onclick="retirerNotification(`{% url 'sup_notif' notification.id %}`, `{{ request.path }}`)" style="position: absolute;top: 0;right: 0;padding-right: 2%;"> &times;</span>
+      		</li>
+      		{% endif %}
+      	{% elif notification.commentaire %}
+      		{% if notification.type_notification == 1 %}
+      		<li>
+      			<a href="{% url 'notifi_pub' notification.id notification.commentaire.publication.id %}">{{notification.expediteur.first_name}} {{notification.expediteur.last_name}} a aimé votre commentaire</a>
+      			<span class="text-danger" onclick="retirerNotification(`{% url 'sup_notif' notification.id %}`, `{{ request.path }}`)" style="position: absolute;top: 0;right: 0;padding-right: 2%;"> &times;</span>
+      		</li>
+      		{% elif notification.type_notification == 2 %}
+      		<li>
+      			<a href="{% url 'notifi_pub' notification.id notification.commentaire.publication.id %}">{{notification.expediteur.first_name}} {{notification.expediteur.last_name}} a répondu à votre commentaire</a>
+      			<span class="text-danger" onclick="retirerNotification(`{% url 'sup_notif' notification.id %}`, `{{ request.path }}`)" style="position: absolute;top: 0;right: 0;padding-right: 2%;"> &times;</span>
+      		</li>
+      		{% endif %}
+        {% elif notification.annonce %}
+            {% if notification.type_notification == 1 %}
+            <li>
+                <a href="{% url 'notifi_annonce' notification.id notification.annonce.id %}">{{notification.expediteur.first_name}} {{notification.expediteur.last_name}} a aimé votre annonce</a>
+                <span class="text-danger" onclick="retirerNotification(`{% url 'sup_notif' notification.id %}`, `{{ request.path }}`)" style="position: absolute;top: 0;right: 0;padding-right: 2%;"> &times;</span>
+            </li>
+            {% elif notification.type_notification == 2 %}
+            <li>
+                <a href="">{{notification.expediteur.first_name}} {{notification.expediteur.last_name}} a commenté votre annonce</a>
+                <span class="text-danger" onclick="retirerNotification(`{% url 'sup_notif' notification.id %}`, `{{ request.path }}`)" style="position: absolute;top: 0;right: 0;padding-right: 2%;"> &times;</span>
+            </li>
+            {% endif %}
+        {% else %}
+      	<li>
+      		<a href="{% url 'notif_abonne' notification.id notification.destinataire.id %}">{{notification.expediteur.first_name}} {{notification.expediteur.last_name}} a commencé à vous suivre</a>
+      		<span class="text-danger" style="position: absolute;top: 0;right: 0;padding-right: 2%;"> &times;</span>
+      	</li>
+      	{% endif%}
+      {% endfor%}    
+  	</ul>

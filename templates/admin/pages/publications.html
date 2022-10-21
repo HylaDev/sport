@@ -1,0 +1,105 @@
+
+{% extends 'admin/main.html'%}
+{%load static%} 
+{%load static%}
+{%block title%}
+Publication - TalentSport+
+{%endblock%}
+{%block content%}
+
+<!-- dashboard inner -->
+<div class="midde_cont">
+   <div class="container-fluid">
+      <div class="row column_title">
+         <div class="col-md-12">
+            <div class="page_title">
+               <h2>Publications</h2>
+            </div>
+         </div>
+      </div>
+      {%include 'message.html'%}
+      <div class="row column1">
+         <div class="col-md-12">
+            <div class="white_shd full margin_bottom_30">
+               <div class="full graph_head">
+                  <div class="heading1 margin_0">
+                     <h2>Liste des publications</h2>
+                  </div>
+                  <div class="m-3 text-right">
+                        <a href="" class="btn btn-warning" style="color:#fff;">Ajouter</a>
+                  </div>
+               </div> 
+               
+               <div class="table_section padding_infor_info">
+                  <div class="table-responsive-sm">
+                     <table class="table table-bordered">
+                        <thead>
+                           <tr>
+                              <th>#</th>
+                              <th>Utilisateur</th>
+                              <th>Titre</th>
+                              <th>Corps</th>
+                              <th>Catégorie</th>
+                              <th>Discipline Sportive</th>
+                              <th>Image</th>
+                              <th>Vidéo</th>
+                              <th>Valide</th>
+                              <th>Date</th>
+                              <th>Actions</th>
+                           </tr>
+                        </thead>
+                        {% for publication in publications %}
+                        <tbody>
+                           <tr>
+                              <td>{{forloop.counter}}</td>
+                              <td>{{publication.user.last_name}} {{publication.user.first_name}}</td>
+                              <td>{{publication.title}}</td>
+                              <td>{{publication.pub_content}}</td>
+                              <td>{{publication.categorie.désignation}}</td>
+                              <td>{{publication.discipline_sportive}}</td>
+                              <td>
+                                 {%if publication.image%}
+                                    <a href="{{ MEDIA_URL }}/{{ publication.image }}"><img src="{{ MEDIA_URL }}/{{ publication.image }}" width="50"></a></td>
+                                 {%else%}
+                                 {%endif%}
+                              <td>
+                                 {%if publication.videofile%}
+                                    <a href="{{ MEDIA_URL }}/{{ publication.videofile }}">
+                                       <video autoplay="autoplay" controls="controls" class="img-fluid rounded" preload="preload">
+                                          <source src="{{ MEDIA_URL }}/{{ publication.videofile }}" type="video/mp4" autoplay="false"></source>
+                                       </video>
+                                    </a>
+                                 {%else%}
+                                 {%endif%}
+                              </td>
+                              {% if publication.is_valid == True %}
+                              <td><a class="btn btn-success text-white">Oui</a></td>
+                              {%else%}
+                              <td><a class="btn btn-danger text-white">Non</a></td>
+                              {%endif%}
+                              <td>{{publication.date_creation}}</td>
+                              <td>
+                                 <a href="{% url 'edit_publications' publication.id %}" class="btn btn-success"><i class="bx bx-pencil"></i></a>
+                                 <a href="{% url 'delete_publication' publication.id %}" class="btn btn-danger my-2"><i class="bx bx-trash"></i></a>
+                              </td>
+                           </tr>
+                        </tbody>
+                        {% endfor %}
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      
+   </div>
+   <!-- footer -->
+   <div class="container-fluid">
+      <div class="footer">
+         <p>Copyright © 2022 Produit par <a href="{% url 'dashbord' %}">TalentSport+</a>. Tous droits reservés.<br><br>
+         </p>
+      </div>
+   </div>
+</div>
+<!-- end dashboard inner -->
+{% endblock %}

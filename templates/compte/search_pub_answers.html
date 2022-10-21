@@ -1,0 +1,144 @@
+{% extends 'home_main.html'%}{%load static%} {%load humanize %}
+{% load crispy_forms_tags %}
+{%block title%}
+Rechercher - TalentSport
+{%endblock%}
+{%block content%}
+<main class="mt-5 myMain">
+  <div class="m-5">
+    <div class="row">
+      <div class="col-lg-3 left-bar  display">
+        <h6><i class="bx bx-menu" style="color:#ffc800;"></i> Menu Rapide</h6>
+        <hr>
+        <div class="">
+          <h6 class="h6"><i class="bx bx-grid" style="color:#ffc800;"></i> Disciplines Sportives</h6>
+          <hr>
+          <div class="col-lg-12 d-flex">
+            <a href="{% url 'home'%}" class="mr-5"> <i class="bx bx-chevron-right"></i> Tous</a>
+          </div>
+          {% for discipline_sportive in discipline_sportives %}
+
+          <div class="col-lg-12 d-flex">
+            <a href="/publication_discipline/{{discipline_sportive.id}}" class="mr-5"> <i class="bx bx-chevron-right"></i> {{discipline_sportive.désignation}}</a>
+          </div>
+          {% endfor%}
+
+        </div>
+        <hr>
+        <div class="my-2">
+          <h6><i class="bx bx-news" style="color:#ffc800;"></i> Publications</h6>
+          <hr>
+          <div class="col-lg-12"> 
+            <a href=""><i class="bx bx-chevron-right"></i> Gérer mes publications</a>
+          </div>
+        </div>
+        <hr>
+        <div class="my-2">
+          <h6><i class="bx bx-globe"style="color:#ffc800;"></i> <span >TalentSport+</span> </i></h6>
+          <hr>
+          <div class="col-lg-12">
+            <a href=""><i class="bx bx-chevron-right"></i> Faqs</a>
+          </div>
+          <div class="col-lg-12">
+            <a href=""><i class="bx bx-chevron-right"></i> Nous contacter</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-7 mx-2">
+        
+        <div class="row">
+          <div class="container mb-2" id="bg">
+            <div class="col-lg-12">
+              <div>
+                <p>Résultats de <em><b>'{{request.GET.query}}'</b></em></p>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+              <div class="col-lg-12 ">
+                <a href="#" class="btn btn-outline-secondary my-3">Publications</a>
+                <a href="#" class="btn btn-outline-secondary mx-4 my-3">Personnes</a>
+                <a href="#" class="btn btn-outline-secondary my-3">Annonces</a>
+              </div>
+          </div>
+          
+           {% if comptes.count == 0 %}
+          <div class="container mt-1" id="bg1">
+            <div>
+               <p>Aucun resultat ne correspond à '{{request.GET.query}}' </p>
+            </div>
+          </div>
+          {% endif %}
+        {% for pub in publications %}
+          <div class="card mt-3 mb-3" id="card">
+              <div class="card-header bg-white">
+                <p class="text-right pub_text" style="cursor: pointer;"> <i class="bx bx-dots-horizontal-rounded"></i></p>
+                <div class="container">
+                <a href="{%if pub.user == request.user%}/compte/profil/{{user.id}}{%else%}/compte/detail/{{pub.user.id}}{%endif%}" c> 
+                   <h6 class="card-title d-flex">
+                    <div class="row">
+                    {% if pub.user.compte.image%}
+                    <img class="img-fluid"  src="{{ MEDIA_URL }}/{{ pub.user.compte.image }}"> 
+                    {%else%}
+                    <img class="rounded-circle img-fluid rounded" width="40" height="40" src="{% static 'images/default-user-icon-13.jpg'%}">
+                    {%endif%}
+                    <p class="ml-2"><span class="text-black">{{pub.user.first_name}} {{pub.user.last_name}}</span> <br>
+                     <span class="pub_text"> {{pub.date_creation | naturaltime}} . Sportif</span></p>
+
+                   </div>
+                  </h6>
+                </a>
+                </div>
+                
+                <a href="/detail_publication/{{pub.id}}">
+                  <p >{{pub.pub_content}}</p>
+                </a>
+                {% if pub.image == '' %}
+                {% else %}
+                <a href="/detail_publication/{{pub.id}}">
+                  <img src="{{ MEDIA_URL }}/{{pub.image}}" alt="image" height="50" class="img-fluid rounded my-2" >
+                </a>
+                {%endif%}
+                {% if pub.videofile == '' %}
+                {%else%}
+                  <video autoplay="autoplay" controls="controls" class="img-fluid rounded" preload="preload">
+                    <source src="{{ MEDIA_URL }}/{{ pub.videofile }}" type="video/mp4"></source>
+                  </video>                  
+                {% endif %}
+              </div>
+              <div class="card-footer bg-white d-flex">
+                <p>
+                  <form method="post" action="{% url 'like' pub.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{request.path}}">
+                    <button class="btn btn-outline-secondary rounded pub_btn">
+                      <i class="bx bx-like"></i> 
+                      <span class="hide">
+                        J'aime 
+                      </span>
+                      <span>
+                        {% if pub.likes.all %}
+                        {{pub.likes.all.count}}
+                        {%else%}
+                        {%endif%}
+                      </span>
+                    </button>
+                  </form>
+                </p>
+                <p class="mx-1"><a href="/detail_publication/{{pub.id}}" class="btn btn-outline-secondary rounded pub_btn" ><i class="bx bx-comment"></i> <span class="hide">Commentaire</span>
+                </a></p>
+                <p class="img-fluid"><button class="btn btn-outline-secondary rounded pub_btn"><i class="bx bx-share"></i><span class="hide"> Partarger</span> </button></p>
+              </div>
+            </div>
+        {% endfor%}
+        </div> 
+            
+      </div>
+      
+    </div>
+  </div>
+</main>
+{%endblock%}
+
+
